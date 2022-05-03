@@ -33,11 +33,20 @@ class _LoginState extends State<Login> {
   }
 
   Widget _buildForm() => Card(
+        margin: EdgeInsets.only(top: 80, left: 30, right: 30),
         color: Colors.white,
-        child: Column(
-          children: [
-            _logo(),
-          ],
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Form(
+            child: Column(
+              children: [
+                _logo(),
+                SizedBox(height: 22),
+                _buildUsernameInput(),
+                _buildPasswordInput(),
+              ],
+            ),
+          ),
         ),
       );
 
@@ -45,4 +54,31 @@ class _LoginState extends State<Login> {
         ("assets/header_main.png"),
         fit: BoxFit.cover,
       );
+
+  Widget _buildUsernameInput() => TextFormField(
+        decoration: InputDecoration(
+            labelText: 'Email',
+            hintText: 'example@gmail.com',
+            icon: Icon(Icons.email)),
+        keyboardType: TextInputType.emailAddress,
+        validator: _validateEmail,
+        onSaved: (String? value) {},
+        onFieldSubmitted: (String value) {},
+      );
+
+  Widget _buildPasswordInput() => TextFormField(
+        decoration:
+            InputDecoration(labelText: 'Password', icon: Icon(Icons.lock)),
+        obscureText: true,
+        validator: _validatePassword,
+        onSaved: (String? value) {},
+      );
+
+  String? _validateEmail(String? value) {
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    return null;
+  }
 }
