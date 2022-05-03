@@ -12,7 +12,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({Key? key}) : super(key: key);
 
-  final _rpute = <String, WidgetBuilder>{
+  final _route = <String, WidgetBuilder>{
     '/login' : (context) => Login(),
     '/home' : (context) => Home(),
   };
@@ -20,9 +20,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "CM Feed Json",
       home: Login(),
-      routes: _rpute,
+      routes: _route,
     );
   }
 }

@@ -12,10 +12,37 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Login"),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/bg.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          ListView(
+            children: [
+              _buildForm(),
+            ],
+          )
+        ],
       ),
-      body: Center(child: Text("Login Page"),),
     );
   }
+
+  Widget _buildForm() => Card(
+        color: Colors.white,
+        child: Column(
+          children: [
+            _logo(),
+          ],
+        ),
+      );
+
+  Widget _logo() => Image.asset(
+        ("assets/header_main.png"),
+        fit: BoxFit.cover,
+      );
 }
