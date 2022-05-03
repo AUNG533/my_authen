@@ -1,43 +1,28 @@
+
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'login.dart';
+import 'home.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  final _rpute = <String, WidgetBuilder>{
+    '/login' : (context) => Login(),
+    '/home' : (context) => Home(),
+  };
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Home'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: const Center(
-        child: Text("Hello World!!!"),
-      ),
+      title: "CM Feed Json",
+      home: Login(),
+      routes: _rpute,
     );
   }
 }
