@@ -44,6 +44,9 @@ class _LoginState extends State<Login> {
                 SizedBox(height: 22),
                 _buildUsernameInput(),
                 _buildPasswordInput(),
+                SizedBox(height: 28),
+                _buildSubmitButton(),
+                _buildForgotPasswordButton(),
               ],
             ),
           ),
@@ -73,6 +76,34 @@ class _LoginState extends State<Login> {
         validator: _validatePassword,
         onSaved: (String? value) {},
       );
+
+  Widget _buildSubmitButton() => Container(
+        width: MediaQuery.of(context).size.width,
+        child: RaisedButton(
+          color: Colors.blue,
+          onPressed: _submit,
+          child: Text(
+            "login".toUpperCase(),
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      );
+
+  Widget _buildForgotPasswordButton() => Container(
+    width: MediaQuery.of(context).size.width,
+    child: FlatButton(
+      splashColor: Colors.blue.shade500,
+      onPressed: _submit,
+      child: Text(
+        "Forgot password",
+        style: TextStyle(color: Colors.black54),
+      ),
+    ),
+  );
+
+  void _submit() {}
+
+
 
   String? _validateEmail(String? value) {
     return null;
