@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:validators/validators.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -9,6 +10,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,6 +41,7 @@ class _LoginState extends State<Login> {
         child: Padding(
           padding: EdgeInsets.all(20),
           child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 _logo(),
@@ -77,7 +81,7 @@ class _LoginState extends State<Login> {
         onSaved: (String? value) {},
       );
 
-  Widget _buildSubmitButton() => Container(
+  Widget _buildSubmitButton() => SizedBox(
         width: MediaQuery.of(context).size.width,
         child: RaisedButton(
           color: Colors.blue,
@@ -89,7 +93,7 @@ class _LoginState extends State<Login> {
         ),
       );
 
-  Widget _buildForgotPasswordButton() => Container(
+  Widget _buildForgotPasswordButton() => SizedBox(
     width: MediaQuery.of(context).size.width,
     child: FlatButton(
       splashColor: Colors.blue.shade500,
@@ -101,15 +105,24 @@ class _LoginState extends State<Login> {
     ),
   );
 
-  void _submit() {}
-
-
+  void _submit() {
+    if (_formKey.currentState!.validate()) {}
+  }
 
   String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return "The Email is Empty";
+    }
+    if (!isEmail(value)) {
+      return "The Email must be valid email";
+    }
     return null;
   }
 
   String? _validatePassword(String? value) {
+    if(value!.length < 8){
+      return "The Password must be at least 8 characters";
+    }
     return null;
   }
 }
