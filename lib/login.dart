@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:my_authen/models/User.dart';
+import 'package:my_authen/services/AuthService.dart';
 import 'package:validators/validators.dart';
 
 class Login extends StatefulWidget {
@@ -10,8 +12,11 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   final _formKey = GlobalKey<FormState>();
+
+  User user = User();
+  AuthService authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +74,9 @@ class _LoginState extends State<Login> {
             icon: Icon(Icons.email)),
         keyboardType: TextInputType.emailAddress,
         validator: _validateEmail,
-        onSaved: (String? value) {},
+        onSaved: (String? value) {
+          user.Username = value;
+        },
         onFieldSubmitted: (String value) {},
       );
 
@@ -78,7 +85,9 @@ class _LoginState extends State<Login> {
             InputDecoration(labelText: 'Password', icon: Icon(Icons.lock)),
         obscureText: true,
         validator: _validatePassword,
-        onSaved: (String? value) {},
+        onSaved: (String? value) {
+          user.Password = value;
+        },
       );
 
   Widget _buildSubmitButton() => SizedBox(
@@ -94,19 +103,48 @@ class _LoginState extends State<Login> {
       );
 
   Widget _buildForgotPasswordButton() => SizedBox(
-    width: MediaQuery.of(context).size.width,
-    child: FlatButton(
-      splashColor: Colors.blue.shade500,
-      onPressed: _submit,
-      child: Text(
-        "Forgot password",
-        style: TextStyle(color: Colors.black54),
-      ),
-    ),
-  );
+        width: MediaQuery.of(context).size.width,
+        child: FlatButton(
+          splashColor: Colors.blue.shade500,
+          onPressed: _submit,
+          child: Text(
+            "Forgot password",
+            style: TextStyle(color: Colors.black54),
+          ),
+        ),
+      );
 
   void _submit() {
-    if (_formKey.currentState!.validate()) {}
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+
+      authService.login(user: user).then((result) {
+        if (result) {
+          //todo
+        } else {
+          _showAlertDialog();
+        }
+      });
+    }
+  }
+
+  void _showAlertDialog() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Username or Password is incorrect."),
+            content: Text("Please Try Again."),
+            actions: [
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("OK"))
+            ],
+          );
+        });
   }
 
   String? _validateEmail(String? value) {
@@ -120,7 +158,7 @@ class _LoginState extends State<Login> {
   }
 
   String? _validatePassword(String? value) {
-    if(value!.length < 8){
+    if (value!.length < 8) {
       return "The Password must be at least 8 characters";
     }
     return null;
